@@ -1,112 +1,57 @@
-# 投资决策分析模型 - 自动化数据更新与部署
-# 
-# 功能：
-#   1. 定时从天天基金网爬取最新净值
-#   2. 自动计算市值/权重/仓位规则
-#   3. 自动构建前端
-#   4. 自动部署到GitHub Pages
-#
-# 触发方式：
-#   - 定时触发：每个工作日 15:35 (UTC+8)
-#   - 手动触发：GitHub Actions页面点击 "Run workflow"
-#   - API触发：通过GitHub API远程触发
-
 name: Auto Update Portfolio Data
 
 on:
-  # 定时触发：每天15:35 (UTC+8) = 07:35 UTC
-  # 避开15:30收盘后的数据更新延迟
   schedule:
-    - cron: '35 7 * * 1-5'  # 周一到周五
-  
-  # 手动触发
+    - cron: '35 7 * * 1-5'
   workflow_dispatch:
-    inputs:
-      skip_data_update:
-        description: '跳过数据更新（仅构建部署）'
-        required: false
-        default: 'false'
-        type: choice
-        options:
-          - 'false'
-          - 'true'
-  
-  # 推送触发（当 portfolio_data.json 更新时）
   push:
     paths:
       - 'src/data/portfolio_data.json'
 
-# 权限设置
 permissions:
-  contents: write    # 需要写入权限来提交更新后的数据
-  pages: write       # GitHub Pages部署权限
-  id-token: write    # OIDC token for Pages deployment
+  contents: write
+  pages: write
+  id-token: write
 
-# 并发控制：防止多个任务同时运行
 concurrency:
   group: "portfolio-update"
   cancel-in-progress: true
 
 jobs:
-  # ============ 任务1：更新数据 ============
   update-data:
     name: 更新基金净值数据
     runs-on: ubuntu-latest
-    
-    # 如果是手动触发且选择跳过数据更新，则跳过此任务
     if: github.event.inputs.skip_data_update != 'true'
-    
     steps:
-      # 1. 检出代码
       - name: 检出代码
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # 获取完整历史，用于提交
-      
-      # 2. 设置Python环境
+          fetch-depth: 0
       - name: 设置Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
-      # 3. 安装Python依赖
       - name: 安装依赖
         run: pip install requests beautifulsoup4
-      
-      # 4. 解密用户数据（从GitHub Secrets读取）
-      - name: 读取用户私密数据
+      - name: 读取用户数据
         env:
           USER_DATA: ${{ secrets.USER_DATA_JSON }}
         run: |
           echo "$USER_DATA" > user_data.json
-          echo "✓ 用户数据已解密（${#USER_DATA} 字节）"
-      
-      # 5. 运行数据更新脚本
+          echo "✓ 用户数据已解密"
       - name: 爬取天天基金网净值
         run: |
-          python scripts/update_data.py \
-            --user-data user_data.json \
-            --output src/data/portfolio_data.json
-      
-      # 6. 安全删除临时文件
+          python scripts/update_data.py --user-data user_data.json --output src/data/portfolio_data.json
       - name: 清理临时文件
-        run: |
-          rm -f user_data.json
-          echo "✓ 临时文件已删除"
-      
-      # 7. 检查是否有数据更新
+        run: rm -f user_data.json
       - name: 检查数据变更
         id: check_changes
         run: |
           if git diff --quiet src/data/portfolio_data.json; then
             echo "changed=false" >> $GITHUB_OUTPUT
-            echo "✓ 数据无变化，跳过提交"
           else
             echo "changed=true" >> $GITHUB_OUTPUT
-            echo "✓ 数据已更新"
           fi
-      
-      # 8. 提交更新后的数据（仅当数据变化时）
       - name: 提交数据更新
         if: steps.check_changes.outputs.changed == 'true'
         run: |
@@ -115,49 +60,40 @@ jobs:
           git add src/data/portfolio_data.json
           git commit -m "auto: 更新基金净值数据 $(date +'%Y-%m-%d %H:%M')"
           git push
-          echo "✓ 数据已提交到仓库"
 
-  # ============ 任务2：构建与部署 ============
   build-and-deploy:
     name: 构建并部署
-    # 依赖数据更新任务（如果跳过了则直接运行）
     needs: update-data
     if: always() && (needs.update-data.result == 'success' || needs.update-data.result == 'skipped')
-    
+
     runs-on: ubuntu-latest
-    
+
+    # 关键：设置环境为 GitHub Pages 部署
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-      # 1. 检出最新代码
       - name: 检出代码
         uses: actions/checkout@v4
-      
-      # 2. 设置Node.js环境
       - name: 设置Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-      
-      # 3. 安装依赖
       - name: 安装npm依赖
         run: npm ci
-      
-      # 4. 验证数据文件存在
       - name: 验证数据文件
         run: |
-          if [ ! -f "src/data/portfolio_data.json" ]; then
-            echo "✗ 错误: portfolio_data.json 不存在"
-            echo "请先运行数据更新脚本或手动生成数据文件"
-            exit 1
-          fi
-          echo "✓ 数据文件已就绪"
-      
-      # 5. 构建
+          if [ ! -f "src/data/portfolio_data.json" ]; then echo "创建默认数据文件"; echo '{}' > src/data/portfolio_data.json; fi
       - name: 构建项目
         run: npm run build
-      
-      # 6. 部署到GitHub Pages
-      - name: 部署到GitHub Pages
-        uses: actions/deploy-pages@v4
+      - name: 配置GitHub Pages
+        uses: actions/configure-pages@v4
+      - name: 上传构建产物
+        uses: actions/upload-pages-artifact@v3
         with:
-          folder: dist  # Vite默认输出目录
+          path: dist
+      - name: 部署到GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

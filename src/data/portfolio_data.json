@@ -1,1 +1,265 @@
-{}
+{
+  "meta": {
+    "version": "3.3",
+    "data_source": "天天基金网",
+    "last_update": "2026-07-19 16:49",
+    "nav_date": "unknown",
+    "total_assets": 877123.51,
+    "total_holdings_value": 777354.08,
+    "cash": 99769.43
+  },
+  "holdings": [
+    {
+      "id": "023902",
+      "name": "博道上证科创板综合指数增强C",
+      "code": "023902",
+      "account": "场外",
+      "assetClass": "tech",
+      "fundType": "增强型宽基",
+      "marketValue": 149972.04,
+      "cost": 150000.0,
+      "profit": -27.96,
+      "profitRate": -0.02,
+      "shares": 130297.17,
+      "currentPrice": 1.151,
+      "costPrice": 1.151,
+      "navDate": "unknown",
+      "dailyChange": 0.0,
+      "manager": "杨梦/刘兆阳",
+      "isCore": true,
+      "weight": 17.1
+    },
+    {
+      "id": "013369",
+      "name": "汇添富自主核心科技一年持有期混合A",
+      "code": "013369",
+      "account": "场外",
+      "assetClass": "tech",
+      "fundType": "科技主动",
+      "marketValue": 147748.2,
+      "cost": 147765.89,
+      "profit": -17.69,
+      "profitRate": -0.01,
+      "shares": 62209.77,
+      "currentPrice": 2.375,
+      "costPrice": 2.375,
+      "navDate": "unknown",
+      "dailyChange": 0.0,
+      "manager": "马磊",
+      "isCore": true,
+      "weight": 16.84
+    },
+    {
+      "id": "014806",
+      "name": "国金量化精选混合C",
+      "code": "014806",
+      "account": "场外",
+      "assetClass": "tech",
+      "fundType": "量化策略",
+      "marketValue": 109896.92,
+      "cost": 109924.8,
+      "profit": -27.88,
+      "profitRate": -0.03,
+      "shares": 56155.81,
+      "currentPrice": 1.957,
+      "costPrice": 1.957,
+      "navDate": "unknown",
+      "dailyChange": 0.0,
+      "manager": "马芳",
+      "isCore": false,
+      "weight": 12.53
+    },
+    {
+      "id": "016501",
+      "name": "华夏半导体龙头混合C",
+      "code": "016501",
+      "account": "场外",
+      "assetClass": "chip",
+      "fundType": "半导体",
+      "marketValue": 50215.47,
+      "cost": 50217.68,
+      "profit": -2.21,
+      "profitRate": -0.0,
+      "shares": 13712.58,
+      "currentPrice": 3.662,
+      "costPrice": 3.662,
+      "navDate": "unknown",
+      "dailyChange": 0.0,
+      "manager": "高翔",
+      "isCore": false,
+      "weight": 5.73
+    },
+    {
+      "id": "007045",
+      "name": "博道沪深300指数增强C",
+      "code": "007045",
+      "account": "场外",
+      "assetClass": "index300",
+      "fundType": "宽基指数",
+      "marketValue": 201192.02,
+      "cost": 201202.51,
+      "profit": -10.49,
+      "profitRate": -0.01,
+      "shares": 114639.33,
+      "currentPrice": 1.755,
+      "costPrice": 1.755,
+      "navDate": "unknown",
+      "dailyChange": 0.0,
+      "manager": "杨梦",
+      "isCore": true,
+      "weight": 22.94
+    },
+    {
+      "id": "009290",
+      "name": "富国添享一年持有期债券A",
+      "code": "009290",
+      "account": "场外",
+      "assetClass": "bond",
+      "fundType": "债券",
+      "marketValue": 39869.21,
+      "cost": 39872.17,
+      "profit": -2.96,
+      "profitRate": -0.01,
+      "shares": 33169.06,
+      "currentPrice": 1.202,
+      "costPrice": 1.202,
+      "navDate": "unknown",
+      "dailyChange": 0.0,
+      "manager": "朱征星/吴旅忠",
+      "isCore": true,
+      "weight": 4.55
+    },
+    {
+      "id": "513120",
+      "name": "港股创新药ETF",
+      "code": "513120",
+      "account": "场内",
+      "assetClass": "pharma",
+      "fundType": "ETF",
+      "marketValue": 25260.3,
+      "cost": 25260.3,
+      "profit": 0.0,
+      "profitRate": 0.0,
+      "shares": 22100.0,
+      "currentPrice": 1.143,
+      "costPrice": 1.143,
+      "navDate": "unknown",
+      "dailyChange": 0.0,
+      "manager": "ETF",
+      "isCore": false,
+      "weight": 2.88
+    },
+    {
+      "id": "513180",
+      "name": "恒生科技ETF华夏",
+      "code": "513180",
+      "account": "场内",
+      "assetClass": "hk_tech",
+      "fundType": "ETF",
+      "marketValue": 33220.0,
+      "cost": 33220.0,
+      "profit": 0.0,
+      "profitRate": 0.0,
+      "shares": 55000.0,
+      "currentPrice": 0.604,
+      "costPrice": 0.604,
+      "navDate": "unknown",
+      "dailyChange": 0.0,
+      "manager": "ETF",
+      "isCore": false,
+      "weight": 3.79
+    },
+    {
+      "id": "518880",
+      "name": "黄金ETF",
+      "code": "518880",
+      "account": "场内",
+      "assetClass": "gold",
+      "fundType": "ETF",
+      "marketValue": 19979.91,
+      "cost": 19980.13,
+      "profit": -0.22,
+      "profitRate": -0.0,
+      "shares": 2401.72,
+      "currentPrice": 8.319,
+      "costPrice": 8.319,
+      "navDate": "unknown",
+      "dailyChange": 0.0,
+      "manager": "ETF",
+      "isCore": false,
+      "weight": 2.28
+    }
+  ],
+  "asset_groups": {
+    "a_share_tech": {
+      "value": 457832.63,
+      "weight": 52.2
+    },
+    "hk_tech": {
+      "value": 33220.0,
+      "weight": 3.79
+    },
+    "pharma": {
+      "value": 25260.3,
+      "weight": 2.88
+    },
+    "gold": {
+      "value": 19979.91,
+      "weight": 2.28
+    },
+    "bond": {
+      "value": 39869.21,
+      "weight": 4.55
+    },
+    "index300": {
+      "value": 201192.02,
+      "weight": 22.94
+    },
+    "cash": {
+      "value": 99769.43,
+      "weight": 11.37
+    }
+  },
+  "rule_checks": [
+    {
+      "name": "A股硬科技上限",
+      "current": 52.2,
+      "limit": 35,
+      "status": "danger",
+      "type": "max"
+    },
+    {
+      "name": "港股科技上限",
+      "current": 3.79,
+      "limit": 25,
+      "status": "pass",
+      "type": "max"
+    },
+    {
+      "name": "科技合计上限",
+      "current": 55.99,
+      "limit": 55,
+      "status": "danger",
+      "type": "max"
+    },
+    {
+      "name": "单一基金上限",
+      "current": 22.94,
+      "limit": 20,
+      "status": "danger",
+      "type": "max"
+    },
+    {
+      "name": "防御仓位下限",
+      "current": 15.919999999999998,
+      "limit": 15,
+      "status": "pass",
+      "type": "min"
+    }
+  ],
+  "alerts": [
+    "A股硬科技上限: 52.20% 超出 35%",
+    "科技合计上限: 55.99% 超出 55%",
+    "单一基金上限: 22.94% 超出 20%"
+  ]
+}

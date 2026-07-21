@@ -87,7 +87,12 @@ jobs:
           cache: 'npm'
 
       - name: 安装npm依赖
-        run: npm install
+        env:
+          NODE_ENV: development
+        run: npm ci
+
+      - name: 验证vite可用
+        run: npx vite --version
 
       - name: 验证数据文件
         run: |
@@ -110,3 +115,4 @@ jobs:
       - name: 部署到GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+

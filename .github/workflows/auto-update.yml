@@ -84,15 +84,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
-      - name: 安装npm依赖
-        env:
-          NODE_ENV: development
-        run: npm ci
+      # 关键修复：全局安装vite，确保PATH中一定能找到
+      - name: 全局安装vite
+        run: npm install -g vite@7.2.4
 
-      - name: 验证vite可用
-        run: npx vite --version
+      - name: 安装项目依赖
+        run: npm install
+
+      - name: 验证vite
+        run: vite --version
 
       - name: 验证数据文件
         run: |
@@ -102,7 +103,7 @@ jobs:
           fi
 
       - name: 构建项目
-        run: npm run build
+        run: vite build
 
       - name: 配置GitHub Pages
         uses: actions/configure-pages@v4
@@ -115,4 +116,3 @@ jobs:
       - name: 部署到GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-

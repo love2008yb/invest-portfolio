@@ -58,11 +58,17 @@ jobs:
         with:
           node-version: "22"
 
+      - name: 安装依赖
+        if: steps.commit.outputs.changed == 'true' || github.event_name != 'schedule'
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 15
+          max_attempts: 3
+          command: npm install --no-audit --no-fund
+
       - name: 构建网站
         if: steps.commit.outputs.changed == 'true' || github.event_name != 'schedule'
-        run: |
-          npm ci
-          npm run build
+        run: npm run build
 
       - name: 配置 Pages
         if: steps.commit.outputs.changed == 'true' || github.event_name != 'schedule'

@@ -98,7 +98,24 @@ def main():
     lines.append("")
     lines.append(f"[👉 查看完整仪表盘](https://love2008yb.github.io/invest-portfolio/)")
 
-    title = f"持仓日报 {date_cn} | {fmt_signed(daily_total)}"
+    # ===== 标题即日报核心：微信通知列表直接可见，无需点开 =====
+    # 统计 ETF 各状态数量
+    state_cnt = {3: 0, 2: 0, 1: 0, 0: 0}
+    for f in etfs:
+        st = f.get("state")
+        if st in state_cnt:
+            state_cnt[st] += 1
+    state_brief = "".join(
+        f"{STATE_ICON[s]}{state_cnt[s]}" for s in (3, 2, 1, 0) if state_cnt[s] > 0
+    )
+    title = (
+        f"持仓{total_assets/10000:.1f}万|日{fmt_signed(daily_total/10000)}万"
+        f"|{state_brief}"
+    )
+    if defense < 0.15:
+        title += "|🚨防御不足"
+    elif any(f.get("state") == 0 for f in etfs):
+        title += "|⚠️有破位"
     desp = "\n\n".join(lines)
 
     print("--- 推送内容预览 ---")

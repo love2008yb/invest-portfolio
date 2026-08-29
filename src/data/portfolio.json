@@ -1,5 +1,5 @@
 {
-  "dataDateOF": "2026-08-27",
+  "dataDateOF": "2026-08-28",
   "dataDateETF": "2026-08-28",
   "cashYuebao": 331940.0,
   "cashSec": 2270.14,
@@ -159,7 +159,7 @@
       "shares": 11500,
       "nav": 1.743,
       "prevNav": 1.775,
-      "cost": 13504.45,
+      "cost": 20079.0,
       "category": "A股硬科技",
       "monitorIndex": "科创50",
       "ma20": 1.7611,
@@ -195,10 +195,57 @@
       "code": "588950",
       "name": "科创50ETF景顺",
       "type": "买入",
-      "amount": 13504,
-      "nav": 1.1743,
+      "amount": 20079,
+      "nav": 1.746,
       "shares": 11500,
-      "note": "新建仓科创50ETF（证券账户）"
+      "note": "新建仓科创50ETF（证券账户）；成交价按当日收盘1.746修正"
     }
-  ]
+  ],
+  "logic": {
+    "023902": {
+      "status1": "broken",
+      "status2": "broken"
+    },
+    "013369": {
+      "status1": "broken",
+      "status2": "broken"
+    },
+    "014806": {
+      "status1": "warning",
+      "status2": "broken"
+    },
+    "016501": {
+      "status1": "broken",
+      "status2": "broken"
+    },
+    "007045": {
+      "status1": "broken",
+      "status2": "warning"
+    },
+    "012747": {
+      "status1": "broken",
+      "status2": "normal"
+    },
+    "009290": {
+      "status1": "broken",
+      "status2": "normal"
+    },
+    "014847": {
+      "status1": "broken",
+      "status2": "normal"
+    },
+    "513120": {
+      "status1": "normal"
+    },
+    "513180": {
+      "status1": "broken"
+    },
+    "518880": {
+      "status1": "normal"
+    },
+    "588950": {
+      "status1": "broken",
+      "status2": "broken"
+    }
+  }
 }

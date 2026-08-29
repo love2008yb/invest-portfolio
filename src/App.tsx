@@ -177,6 +177,20 @@ const logicVerifyMap: Record<string, LogicVerify> = {
 };
 
 // ==========================================
+// 逻辑验证状态：每日由 GitHub Actions 自动判断（portfolio.json 的 logic 字段）
+// 此处用自动状态覆盖下面的默认值
+// ==========================================
+const logicAuto = (portfolioData as unknown as { logic?: Record<string, { status1?: string; status2?: string }> }).logic;
+if (logicAuto) {
+  for (const [code, st] of Object.entries(logicAuto)) {
+    const lv = logicVerifyMap[code];
+    if (!lv) continue;
+    if (st.status1) lv.status1 = st.status1 as LogicVerify["status1"];
+    if (st.status2 && lv.status2 !== undefined) lv.status2 = st.status2 as LogicVerify["status2"];
+  }
+}
+
+// ==========================================
 // 基金数据（唯一数据源：src/data/portfolio.json，由GitHub Actions每日自动更新）
 // 手动调整持仓时：直接编辑 portfolio.json 里的 shares/cost/cash 字段
 // ==========================================
@@ -741,7 +755,7 @@ export default function App() {
                   <div>
                     <h3 className="text-xl font-bold mb-2">逻辑验证追踪（v4.5.1校准版）</h3>
                     <p className="text-sm text-slate-100 leading-relaxed">
-                      系统根据基金类型自动推断应监控的指标，每日更新时搜索判断指标状态。
+                      系统根据基金类型自动推断应监控的指标，每日21:40根据指数K线自动判断状态。
                       <br/>所有指标已校准为Wind可获取数据，阈值基于2021-2026回测设定。
                       <br/>趋势指标滞后5-30天，无法预测拐点，仅用于"状态确认"。
                       <strong>决策由您做，系统负责监控和提醒。</strong>
@@ -794,7 +808,7 @@ export default function App() {
                       <div className="p-2 bg-blue-50 rounded text-xs text-blue-700">
                         <span className="font-bold">建议：</span>{getAdvice(f, null, logic)}
                       </div>
-                      <div className="text-xs text-muted-foreground">更新频率：每日15:30自动更新 | 指标状态需AI根据Wind数据判断后手动更新</div>
+                      <div className="text-xs text-muted-foreground">更新频率：每日21:40自动更新 | 指标状态由指数K线自动判断</div>
                       <div className="text-xs text-orange-600 bg-orange-50 p-1 rounded mt-1">v4.5.1校准：不可回测指标已替换为Wind可获取数据</div>
                     </CardContent>
                   </Card>
@@ -860,7 +874,7 @@ export default function App() {
                         <div className="font-bold text-blue-800 mb-1">组合判断</div>
                         <div className="text-blue-700">技术面：{stage.name} | 逻辑面：{getLogicStatusText(logic.status1).replace(/[✅⚠️❌]/, '').trim()}</div>
                         <div className="text-blue-700 mt-1">建议：{getAdvice(f, stage, logic)}</div>
-                        <div className="text-xs text-muted-foreground mt-2">更新频率：每日15:30自动更新 | 指标状态需AI根据Wind数据判断后手动更新</div>
+                        <div className="text-xs text-muted-foreground mt-2">更新频率：每日21:40自动更新 | 指标状态由指数K线自动判断</div>
                         <div className="text-xs text-orange-600 bg-orange-50 p-1 rounded mt-1">v4.5.1校准：趋势滞后5-30天，仅作状态确认；破位后20天胜率约35-42%</div>
                       </div>
                     </CardContent>

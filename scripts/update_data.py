@@ -137,6 +137,102 @@ def try_sources(code, sources):
     return None, None
 
 
+# ============================================================
+# 逻辑验证状态：每日自动判断
+# 规则（与 v4.5.1 阈值一致）：
+#   指数/ETF趋势：价格>MA20且MA20>MA60=normal；跌破MA60=broken；其余=warning
+#   债基指标1：国债ETF(511010) 60日变化 <0%=broken；0%~+0.3%=warning；其余=normal
+#   债基指标2：沪深300趋势健康(3)=broken（股债跷跷板），其余=normal
+# ============================================================
+LOGIC_RULES = {
+    "023902": [("sh000688", "trend"), ("sh512480", "trend")],
+    "013369": [("sh000688", "trend"), ("sh512480", "trend")],
+    "014806": [("sh000905", "trend"), ("sh000300", "trend")],
+    "016501": [("sh512480", "trend"), ("sh000688", "trend")],
+    "007045": [("sh000300", "trend"), ("sh000016", "trend")],
+    "012747": [("sh511010", "bond60"), ("sh000300", "hs300")],
+    "009290": [("sh511010", "bond60"), ("sh000300", "hs300")],
+    "014847": [("sh511010", "bond60"), ("sh000300", "hs300")],
+    "513120": [("sh513120", "trend")],  # 港股创新药：自身趋势（跟踪中证创新药指数）
+    "513180": [("sh513180", "trend")],  # 恒生科技：自身趋势（跟踪恒生科技指数）
+    "518880": [("sh518880", "trend")],  # 黄金：自身趋势
+    "588950": [("sh000688", "trend"), ("sh512480", "trend")],
+}
+
+
+def fetch_symbol_sina(symbol):
+    """新浪日K线（指数/ETF通用），返回 [(date, close), ...] 升序"""
+    text = http_get(
+        f"https://quotes.sina.cn/cn/api/jsonp_v2.php/x/"
+        f"CN_MarketDataService.getKLineData?symbol={symbol}&scale=240&ma=no&datalen=180"
+    )
+    m = re.search(r"x\((.*)\)", text, re.DOTALL)
+    if not m:
+        raise ValueError("新浪返回格式异常")
+    data = json.loads(m.group(1))
+    return [(k["day"][:10], float(k["close"])) for k in data]
+
+
+def judge_trend(closes):
+    """趋势类指标 → normal/warning/broken"""
+    ma20, ma60, _, state, _ = calc_trend(closes)
+    if state is None:
+        return None
+    return {3: "normal", 2: "warning", 1: "warning", 0: "broken"}[state]
+
+
+def judge_bond60(closes):
+    """国债ETF 60日变化 → normal/warning/broken"""
+    if len(closes) < 61:
+        return None
+    chg = (closes[-1] / closes[-61] - 1) * 100
+    if chg < 0:
+        return "broken"
+    if chg < 0.3:
+        return "warning"
+    return "normal"
+
+
+def judge_hs300(closes):
+    """股债跷跷板：沪深300趋势健康=broken"""
+    _, _, _, state, _ = calc_trend(closes)
+    if state is None:
+        return None
+    return "broken" if state == 3 else "normal"
+
+
+JUDGERS = {"trend": judge_trend, "bond60": judge_bond60, "hs300": judge_hs300}
+
+
+def update_logic_status(portfolio):
+    """自动计算所有基金的逻辑验证状态，写入 portfolio['logic']"""
+    # 先拉取全部所需指数（去重）
+    need = {sym for rules in LOGIC_RULES.values() for sym, _ in rules}
+    cache = {}
+    for sym in sorted(need):
+        try:
+            series = fetch_symbol_sina(sym)
+            cache[sym] = [c for _, c in series]
+            print(f"  逻辑指标 {sym} ✅ ({len(series)}日)")
+        except Exception as e:
+            print(f"  逻辑指标 {sym} ⚠️ 获取失败: {type(e).__name__} {str(e)[:50]}")
+        time.sleep(0.5)
+
+    logic = {}
+    for code, rules in LOGIC_RULES.items():
+        entry = {}
+        for i, (sym, kind) in enumerate(rules, 1):
+            closes = cache.get(sym)
+            status = JUDGERS[kind](closes) if closes else None
+            if status:
+                entry[f"status{i}"] = status
+        if entry:
+            logic[code] = entry
+    if logic:
+        portfolio["logic"] = logic
+    print(f"  逻辑验证状态: {len(logic)} 只基金已自动判断")
+
+
 def main():
     with open(DATA_FILE, encoding="utf-8") as f:
         portfolio = json.load(f)
@@ -192,6 +288,12 @@ def main():
         portfolio["dataDateOF"] = max(of_dates)
     if etf_dates:
         portfolio["dataDateETF"] = max(etf_dates)
+
+    print("更新逻辑验证状态...")
+    try:
+        update_logic_status(portfolio)
+    except Exception as e:
+        print(f"⚠️ 逻辑验证更新失败（不中断主流程）: {type(e).__name__} {str(e)[:80]}")
 
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(portfolio, f, ensure_ascii=False, indent=2)

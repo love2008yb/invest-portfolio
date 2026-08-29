@@ -53,7 +53,7 @@ jobs:
           fi
 
       - name: 推送持仓日报到微信（Server酱）
-        if: steps.commit.outputs.changed == 'true'
+        if: steps.commit.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
         continue-on-error: true
         env:
           SCT_SENDKEY: ${{ secrets.SCT_SENDKEY }}

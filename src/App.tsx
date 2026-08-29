@@ -377,21 +377,20 @@ export default function App() {
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
       <header className="bg-[#1F4E78] text-white py-4 px-6 shadow-lg">
-        <div className="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-3">
-          <div className="flex items-center gap-3">
-            <Brain className="w-7 h-7" />
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-3">
+          <div className="flex items-center gap-2 md:gap-3">
+            <Brain className="w-6 h-6 md:w-7 md:h-7 flex-shrink-0" />
             <div>
-              <h1 className="text-xl font-bold">AI智能投资决策系统 v4.5.1</h1>
-              <p className="text-xs text-slate-300">逻辑验证指标校准版 | 数据日期: {dataDateText} | 每日自动更新</p>
+              <h1 className="text-base md:text-xl font-bold">AI智能投资决策系统 v4.5.1</h1>
+              <p className="text-[11px] md:text-xs text-slate-300">逻辑验证指标校准版 | 数据日期: {dataDateText} | 每日自动更新</p>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-sm">
-            <span className="text-slate-500">|</span>
+          <div className="flex items-center flex-wrap gap-x-3 gap-y-1 text-xs md:text-sm">
             <Database className="w-4 h-4 text-blue-300" />
             <span>Wind万得</span>
             <Clock className="w-4 h-4 text-blue-300" />
             <span>{lastUpdate}</span>
-            <span className="px-2 py-1 bg-white/10 rounded-full text-xs">
+            <span className="px-2 py-1 bg-white/10 rounded-full text-[11px] md:text-xs">
               <Bell className="w-3 h-3 inline mr-1 text-yellow-400" />
               下次更新: {nextUpdate}
             </span>
@@ -399,7 +398,7 @@ export default function App() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto p-6 space-y-4">
+      <main className="max-w-7xl mx-auto p-3 md:p-6 space-y-4">
         {/* 硬约束 */}
         {hardAlert && (
           <Alert className="bg-red-50 border-red-300">
@@ -428,27 +427,80 @@ export default function App() {
 
         {/* Tab */}
         <Tabs defaultValue="holdings" className="w-full">
-          <TabsList className="grid grid-cols-5 w-full">
-            <TabsTrigger value="radar"><Radar className="w-4 h-4 mr-1" />板块雷达</TabsTrigger>
-            <TabsTrigger value="holdings"><Crosshair className="w-4 h-4 mr-1" />持仓明细</TabsTrigger>
-            <TabsTrigger value="allocation"><BarChart3 className="w-4 h-4 mr-1" />资产配置</TabsTrigger>
-            <TabsTrigger value="trend"><Activity className="w-4 h-4 mr-1" />趋势分析</TabsTrigger>
-            <TabsTrigger value="logic"><FileText className="w-4 h-4 mr-1" />逻辑验证</TabsTrigger>
+          <TabsList className="grid grid-cols-5 w-full h-auto">
+            <TabsTrigger value="radar" className="flex-col md:flex-row gap-0.5 md:gap-1 py-1.5 px-0 md:px-3 text-[11px] md:text-sm"><Radar className="w-4 h-4" />板块雷达</TabsTrigger>
+            <TabsTrigger value="holdings" className="flex-col md:flex-row gap-0.5 md:gap-1 py-1.5 px-0 md:px-3 text-[11px] md:text-sm"><Crosshair className="w-4 h-4" />持仓明细</TabsTrigger>
+            <TabsTrigger value="allocation" className="flex-col md:flex-row gap-0.5 md:gap-1 py-1.5 px-0 md:px-3 text-[11px] md:text-sm"><BarChart3 className="w-4 h-4" />资产配置</TabsTrigger>
+            <TabsTrigger value="trend" className="flex-col md:flex-row gap-0.5 md:gap-1 py-1.5 px-0 md:px-3 text-[11px] md:text-sm"><Activity className="w-4 h-4" />趋势分析</TabsTrigger>
+            <TabsTrigger value="logic" className="flex-col md:flex-row gap-0.5 md:gap-1 py-1.5 px-0 md:px-3 text-[11px] md:text-sm"><FileText className="w-4 h-4" />逻辑验证</TabsTrigger>
           </TabsList>
 
           {/* ========== 持仓明细 ========== */}
           <TabsContent value="holdings" className="space-y-4 mt-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <Card className="bg-white"><CardContent className="p-4"><div className="text-sm text-muted-foreground">总资产</div><div className="text-2xl font-bold text-[#1F4E78]">{formatNum(totalAssets)}</div></CardContent></Card>
-              <Card className="bg-white"><CardContent className="p-4"><div className="text-sm text-muted-foreground">持仓金额</div><div className="text-2xl font-bold">{formatNum(totalMv)}</div></CardContent></Card>
-              <Card className="bg-white"><CardContent className="p-4"><div className="text-sm text-muted-foreground">总盈亏</div><div className={`text-2xl font-bold ${totalProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>{totalProfit >= 0 ? '+' : ''}{formatNum(totalProfit)} ({formatPct(totalProfitRate)})</div></CardContent></Card>
-              <Card className="bg-white"><CardContent className="p-4"><div className="text-sm text-muted-foreground">现金余额</div><div className="text-2xl font-bold text-blue-600">{formatNum(cashTotal)} ({formatPct(cashTotal / totalAssets)})</div></CardContent></Card>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+              <Card className="bg-white"><CardContent className="p-3 md:p-4"><div className="text-xs md:text-sm text-muted-foreground">总资产</div><div className="text-lg md:text-2xl font-bold text-[#1F4E78]">{formatNum(totalAssets)}</div></CardContent></Card>
+              <Card className="bg-white"><CardContent className="p-3 md:p-4"><div className="text-xs md:text-sm text-muted-foreground">持仓金额</div><div className="text-lg md:text-2xl font-bold">{formatNum(totalMv)}</div></CardContent></Card>
+              <Card className="bg-white"><CardContent className="p-3 md:p-4"><div className="text-xs md:text-sm text-muted-foreground">总盈亏</div><div className={`text-lg md:text-2xl font-bold ${totalProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>{totalProfit >= 0 ? '+' : ''}{formatNum(totalProfit)} ({formatPct(totalProfitRate)})</div></CardContent></Card>
+              <Card className="bg-white"><CardContent className="p-3 md:p-4"><div className="text-xs md:text-sm text-muted-foreground">现金余额</div><div className="text-lg md:text-2xl font-bold text-blue-600">{formatNum(cashTotal)} ({formatPct(cashTotal / totalAssets)})</div></CardContent></Card>
             </div>
 
             <Card>
               <CardHeader className="pb-2"><CardTitle className="text-lg">持仓明细</CardTitle></CardHeader>
               <CardContent className="p-0">
-                <div className="overflow-x-auto">
+                {/* 手机端：卡片列表 */}
+                <div className="md:hidden divide-y divide-slate-100">
+                  {fundsWithWeight.map((f) => {
+                    const stage = getTrendStage(f);
+                    const logic = logicVerifyMap[f.code];
+                    const iconIdx = stage ? stage.stage : -1;
+                    return (
+                      <div key={f.code} className="p-3 space-y-2">
+                        <div className="flex items-start justify-between gap-2">
+                          <div>
+                            <div className="font-medium text-sm">{f.name}</div>
+                            <div className="text-[11px] text-muted-foreground">{f.code} · {f.type}</div>
+                          </div>
+                          <div className="text-right flex-shrink-0">
+                            <div className="font-mono text-sm text-blue-700">净值 {f.nav.toFixed(4)}</div>
+                            <div className={`font-mono text-sm font-bold ${(f.daily >= 0) ? 'text-green-600' : 'text-red-600'}`}>{(f.daily >= 0) ? '+' : ''}{formatNum(f.daily)}</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-muted-foreground text-xs">市值 <span className="font-mono text-slate-800">{formatNum(f.mv)}</span></span>
+                          <span className={`font-bold ${f.rate >= 0 ? 'text-green-600' : 'text-red-600'}`}>{f.rate >= 0 ? '+' : ''}{formatPct(f.rate)}</span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          {f.account === "场内" && stage && iconIdx >= 0 ? (
+                            <div className={`inline-flex items-center gap-1 px-2 py-1 rounded text-[11px] font-bold ${stageColors[iconIdx]}`}>
+                              {iconIdx === 0 && <TrendingDown className="w-3 h-3" />}
+                              {iconIdx === 1 && <AlertTriangle className="w-3 h-3" />}
+                              {iconIdx === 2 && <Activity className="w-3 h-3" />}
+                              {iconIdx === 3 && <TrendingUp className="w-3 h-3" />}
+                              {stage.name}
+                            </div>
+                          ) : (
+                            <Badge variant="outline">逻辑验证</Badge>
+                          )}
+                          {logic && (
+                            <div className={`inline-block px-2 py-0.5 rounded text-[11px] ${getLogicStatusColor(logic.status1)}`}>
+                              {getLogicStatusText(logic.status1)}
+                            </div>
+                          )}
+                        </div>
+                        <div className="text-[11px] text-slate-600 bg-slate-50 rounded px-2 py-1.5">
+                          <span className="text-blue-600">{f.monitorIndex}</span>
+                          <span className="mx-1">|</span>建议：{getAdvice(f, stage, logic)}
+                        </div>
+                      </div>
+                    );
+                  })}
+                  <div className="p-3 bg-[#1F4E78] text-white font-bold flex items-center justify-between">
+                    <span>合计</span>
+                    <span className={`font-mono ${totalProfit >= 0 ? 'text-green-300' : 'text-red-300'}`}>{totalProfit >= 0 ? '+' : ''}{formatPct(totalProfitRate)}</span>
+                  </div>
+                </div>
+                {/* 电脑端：表格 */}
+                <div className="hidden md:block overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead><tr className="bg-slate-100 text-left"><th className="px-3 py-2">基金</th><th className="px-3 py-2 text-right">最新净值</th><th className="px-3 py-2 text-right">当日涨跌</th><th className="px-3 py-2 text-right">市值</th><th className="px-3 py-2 text-right">盈亏率</th><th className="px-3 py-2 text-center">监控方式</th><th className="px-3 py-2 text-center">建议</th></tr></thead>
                     <tbody>
@@ -506,7 +558,30 @@ export default function App() {
             <Card>
               <CardHeader className="pb-2"><CardTitle className="text-lg">交易历史</CardTitle></CardHeader>
               <CardContent className="p-0">
-                <div className="overflow-x-auto">
+                {/* 手机端：卡片列表 */}
+                <div className="md:hidden divide-y divide-slate-100">
+                  {transactionHistory.map((t, i) => (
+                    <div key={i} className="p-3 space-y-1.5">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-medium text-sm">{t.name} <span className="text-[11px] text-muted-foreground">({t.code})</span></span>
+                        <Badge className={t.type === "买入" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}>{t.type}</Badge>
+                      </div>
+                      <div className="flex items-center justify-between text-xs text-muted-foreground">
+                        <span>{t.date}</span>
+                        <span className="font-mono text-slate-800 text-sm">{t.amount.toLocaleString()} 元</span>
+                      </div>
+                      <div className="flex items-center justify-between text-xs text-muted-foreground">
+                        <span>净值 <span className="font-mono">{t.nav.toFixed(4)}</span> · 份额 <span className="font-mono">{t.shares.toFixed(2)}</span></span>
+                        <span>{t.note || "—"}</span>
+                      </div>
+                    </div>
+                  ))}
+                  {transactionHistory.length === 0 && (
+                    <div className="px-3 py-4 text-center text-muted-foreground">暂无交易记录</div>
+                  )}
+                </div>
+                {/* 电脑端：表格 */}
+                <div className="hidden md:block overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead><tr className="bg-slate-100 text-left"><th className="px-3 py-2">日期</th><th className="px-3 py-2">基金</th><th className="px-3 py-2">类型</th><th className="px-3 py-2 text-right">金额</th><th className="px-3 py-2 text-right">净值</th><th className="px-3 py-2 text-right">份额</th><th className="px-3 py-2">备注</th></tr></thead>
                     <tbody>
@@ -536,7 +611,7 @@ export default function App() {
             <Card>
               <CardHeader><CardTitle className="text-lg flex items-center gap-2"><Radar className="w-5 h-5" /> 板块资金流向雷达</CardTitle></CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                   {sectorRadar.map(s => (
                     <div key={s.name} className={`p-3 rounded-lg border ${s.relevance === '持仓' ? 'border-blue-300 bg-blue-50' : 'border-slate-200 bg-white'}`}>
                       <div className="flex items-center justify-between">

@@ -52,6 +52,13 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: 推送持仓日报到微信（Server酱）
+        if: steps.commit.outputs.changed == 'true'
+        continue-on-error: true
+        env:
+          SCT_SENDKEY: ${{ secrets.SCT_SENDKEY }}
+        run: python scripts/notify_wechat.py
+
       - name: 安装 Node.js
         if: steps.commit.outputs.changed == 'true' || github.event_name != 'schedule'
         uses: actions/setup-node@v4

@@ -1,73 +1,34 @@
-# React + TypeScript + Vite
+# AI智能投资决策系统 v4.5.1
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+个人投资组合监控仪表盘：状态监控 + 硬约束 + 逻辑验证，不做预测、不自动交易。
 
-Currently, two official plugins are available:
+## 自动化机制
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **每个交易日 21:40（北京时间）**，GitHub Actions 自动运行 `scripts/update_data.py`
+- 脚本从公开数据源（天天基金 / 新浪财经，多重备用）抓取最新净值与收盘价
+- 自动计算 ETF 的 MA20/60/120 与四阶段趋势状态，更新 `src/data/portfolio.json`
+- 数据有变化才提交并重新部署到 GitHub Pages；无变化则跳过
 
-## React Compiler
+## 目录说明
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| 路径 | 作用 |
+|------|------|
+| `src/data/portfolio.json` | **唯一数据源**：持仓、净值、现金、交易记录 |
+| `src/App.tsx` | 页面主逻辑（展示、计算、硬约束监控） |
+| `scripts/update_data.py` | 每日数据更新脚本 |
+| `.github/workflows/daily-update.yml` | 自动化工作流 |
 
-## Expanding the ESLint configuration
+## 持仓变动时
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+手动编辑 `src/data/portfolio.json`（GitHub 网页上可直接编辑）：
+- 买入/卖出：修改对应基金的 `shares`、`cost`，在 `transactions` 数组追加一条记录，并扣减/增加 `cashYuebao` 或 `cashSec`
+- `nav`、`prevNav`、`ma20/60/120`、`state` 等字段由脚本每日自动维护，无需手动改
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 本地开发
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev        # 本地预览
+npm run build      # 构建到 dist/
+python scripts/update_data.py   # 手动更新数据
 ```

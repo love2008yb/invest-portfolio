@@ -1,6 +1,6 @@
 {
-  "dataDateOF": "2026-10-27",
-  "dataDateETF": "2026-10-28",
+  "dataDateOF": "2026-10-28",
+  "dataDateETF": "2026-10-29",
   "cashYuebao": 331940.0,
   "cashSec": 2270.14,
   "funds": [
@@ -10,8 +10,8 @@
       "type": "增强型宽基",
       "account": "场外",
       "shares": 125307.36,
-      "nav": 1.5061,
-      "prevNav": 1.4511,
+      "nav": 1.4365,
+      "prevNav": 1.5061,
       "cost": 150000.0,
       "category": "A股硬科技",
       "monitorIndex": "科创50"
@@ -22,8 +22,8 @@
       "type": "科技主动",
       "account": "场外",
       "shares": 60469.54,
-      "nav": 1.8807,
-      "prevNav": 1.7989,
+      "nav": 1.7376,
+      "prevNav": 1.8807,
       "cost": 147765.89,
       "category": "A股硬科技",
       "monitorIndex": "科创50"
@@ -34,8 +34,8 @@
       "type": "量化策略",
       "account": "场外",
       "shares": 54642.74,
-      "nav": 1.6924,
-      "prevNav": 1.6523,
+      "nav": 1.6328,
+      "prevNav": 1.6924,
       "cost": 109924.8,
       "category": "A股硬科技",
       "monitorIndex": "科创50"
@@ -46,8 +46,8 @@
       "type": "半导体",
       "account": "场外",
       "shares": 20318.94,
-      "nav": 2.633,
-      "prevNav": 2.546,
+      "nav": 2.5216,
+      "prevNav": 2.633,
       "cost": 75217.68,
       "category": "A股硬科技",
       "monitorIndex": "科创50"
@@ -58,8 +58,8 @@
       "type": "宽基指数",
       "account": "场外",
       "shares": 112028.12,
-      "nav": 1.6617,
-      "prevNav": 1.6388,
+      "nav": 1.6382,
+      "prevNav": 1.6617,
       "cost": 201202.51,
       "category": "宽基指数",
       "monitorIndex": "沪深300"
@@ -70,8 +70,8 @@
       "type": "债券",
       "account": "场外",
       "shares": 7904.51,
-      "nav": 1.0976,
-      "prevNav": 1.0947,
+      "nav": 1.0931,
+      "prevNav": 1.0976,
       "cost": 9134.45,
       "category": "债券",
       "monitorIndex": "利率"
@@ -82,8 +82,8 @@
       "type": "债券",
       "account": "场外",
       "shares": 33155.89,
-      "nav": 1.2583,
-      "prevNav": 1.2575,
+      "nav": 1.257,
+      "prevNav": 1.2583,
       "cost": 39872.17,
       "category": "债券",
       "monitorIndex": "利率"
@@ -94,7 +94,7 @@
       "type": "债券",
       "account": "场外",
       "shares": 81340.49,
-      "nav": 1.2112,
+      "nav": 1.2113,
       "prevNav": 1.2112,
       "cost": 100000.0,
       "category": "债券",
@@ -106,16 +106,16 @@
       "type": "ETF",
       "account": "场内",
       "shares": 22100,
-      "nav": 1.188,
-      "prevNav": 1.155,
+      "nav": 1.187,
+      "prevNav": 1.188,
       "cost": 25228.9,
       "category": "港股ETF",
       "monitorIndex": "恒生科技",
-      "ma20": 1.265,
-      "ma60": 1.2707,
-      "ma120": 1.1913,
+      "ma20": 1.2563,
+      "ma60": 1.2709,
+      "ma120": 1.1909,
       "state": 0,
-      "stateNote": "10-28趋势破位，距MA20-6.1%"
+      "stateNote": "10-29趋势破位，距MA20-5.5%"
     },
     {
       "code": "513180",
@@ -123,16 +123,16 @@
       "type": "ETF",
       "account": "场内",
       "shares": 55000,
-      "nav": 0.48,
-      "prevNav": 0.475,
+      "nav": 0.47,
+      "prevNav": 0.48,
       "cost": 33203.3,
       "category": "港股ETF",
       "monitorIndex": "恒生科技",
-      "ma20": 0.5133,
-      "ma60": 0.5601,
-      "ma120": 0.5823,
+      "ma20": 0.5092,
+      "ma60": 0.5577,
+      "ma120": 0.581,
       "state": 0,
-      "stateNote": "10-28趋势破位，距MA20-6.5%"
+      "stateNote": "10-29趋势破位，距MA20-7.7%"
     },
     {
       "code": "518880",
@@ -140,16 +140,16 @@
       "type": "ETF",
       "account": "场内",
       "shares": 2401.72,
-      "nav": 8.226,
-      "prevNav": 8.167,
+      "nav": 8.224,
+      "prevNav": 8.226,
       "cost": 19980.13,
       "category": "黄金",
       "monitorIndex": "上海金",
-      "ma20": 8.4883,
-      "ma60": 8.8218,
-      "ma120": 8.8854,
+      "ma20": 8.4547,
+      "ma60": 8.819,
+      "ma120": 8.8733,
       "state": 0,
-      "stateNote": "10-28趋势破位，距MA20-3.1%"
+      "stateNote": "10-29趋势破位，距MA20-2.7%"
     },
     {
       "code": "588950",
@@ -157,16 +157,16 @@
       "type": "ETF",
       "account": "场内",
       "shares": 11500,
-      "nav": 1.345,
-      "prevNav": 1.312,
+      "nav": 1.282,
+      "prevNav": 1.345,
       "cost": 20079.0,
       "category": "A股硬科技",
       "monitorIndex": "科创50",
-      "ma20": 1.4843,
-      "ma60": 1.6445,
-      "ma120": 1.7774,
+      "ma20": 1.4613,
+      "ma60": 1.6365,
+      "ma120": 1.7745,
       "state": 0,
-      "stateNote": "10-28趋势破位，距MA20-9.4%"
+      "stateNote": "10-29趋势破位，距MA20-12.3%"
     }
   ],
   "transactions": [
@@ -223,15 +223,15 @@
       "status2": "broken"
     },
     "012747": {
-      "status1": "warning",
+      "status1": "normal",
       "status2": "normal"
     },
     "009290": {
-      "status1": "warning",
+      "status1": "normal",
       "status2": "normal"
     },
     "014847": {
-      "status1": "warning",
+      "status1": "normal",
       "status2": "normal"
     },
     "513120": {
